@@ -2,8 +2,10 @@ package deviget.minesweeper.model;
 
 public class RequestParam {
 
+	private int		iCol;
 	private int 	iColAmount;
 	private int 	iFlagAmount;
+	private int		iRow;
 	private int 	iRowAmount;
 	private int 	iUserID;
 	private String 	strGameCode;
@@ -17,6 +19,14 @@ public class RequestParam {
 	}
 	
 	// getters and setters
+	public int getCol() {
+		return iCol;
+	}
+
+	public void setCol(int iCol) {
+		this.iCol = iCol;
+	}
+	
 	public int getColAmount() {
 		return iColAmount;
 	}
@@ -31,6 +41,14 @@ public class RequestParam {
 
 	public void setFlagAmount(int iFlagAmount) {
 		this.iFlagAmount = iFlagAmount;
+	}
+	
+	public int getRow() {
+		return iRow;
+	}
+
+	public void setRow(int iRow) {
+		this.iRow = iRow;
 	}
 	
 	public int getRowAmount() {

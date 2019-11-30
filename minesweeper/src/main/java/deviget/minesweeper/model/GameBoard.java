@@ -202,4 +202,40 @@ public class GameBoard {
 		
 		return strResult;
 	}
+
+	public boolean isRevealed(int iCol, int iRow) {
+		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isRevealed();
+	}
+
+	public boolean isFlagged(int iCol, int iRow) {
+		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isFlagged();
+	}
+
+	public void setFlagged(int iCol, int iRow, boolean bFlagged) {
+		this.alGameBoardRow.get(iCol).alRowCell.get(iRow).setFlagged( bFlagged );
+	}
+
+	public void setQuestionMarked(int iCol, int iRow, boolean bQuestionMarked) {
+		this.alGameBoardRow.get(iCol).alRowCell.get(iRow).setQuestionMarked( bQuestionMarked );
+	}
+
+	public boolean isQuestionMarked(int iCol, int iRow) {
+		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isQuestionMarked();
+	}
+
+	public boolean checkEndGame() {
+		
+		boolean bResult = true;
+		int iCol = 0;
+		while( iCol < this.getColSize() ) {
+			int iRow = 0;
+			while( iRow < this.getRowSize() ) {
+				bResult = bResult && (this.isFlag(iCol, iRow) == this.isFlagged(iCol, iRow));
+				iRow++;
+			}
+			iCol++;
+		}
+		
+		return bResult;
+	}
 }

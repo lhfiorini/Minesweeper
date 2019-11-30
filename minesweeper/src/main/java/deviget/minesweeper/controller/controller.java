@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +53,31 @@ public class controller {
 		}
 		else
 			return new ResponseEntity<ResponseGrid>(new ResponseGrid(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@PutMapping(value = "/onClic", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> onClic(@RequestBody RequestParam reqParam) throws ParseException {
+
+		// check if the parameters are ok
+		if( sharedGameList.existsGame( reqParam.getGameCode() ) ) {
+			Game auxGame = sharedGameList.getGame( reqParam.getGameCode() );
+			auxGame.onClic(reqParam.getCol(), reqParam.getRow());
+			return new ResponseEntity<Object>(auxGame.getGameStatus(), HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
+	}
+	
+	@PutMapping(value = "/onRightButton", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> onRightButton(@RequestBody RequestParam reqParam) throws ParseException {
+
+		// check if the parameters are ok
+		if( sharedGameList.existsGame( reqParam.getGameCode() ) ) {
+			Game auxGame = sharedGameList.getGame( reqParam.getGameCode() );
+			auxGame.onRightButton(reqParam.getCol(), reqParam.getRow());
+			return new ResponseEntity<Object>(auxGame.getGameStatus(), HttpStatus.OK);
+		}
+		else
+			return new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
 	}
 }

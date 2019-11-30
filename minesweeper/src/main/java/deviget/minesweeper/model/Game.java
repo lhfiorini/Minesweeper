@@ -11,6 +11,7 @@ public class Game {
 	private int 		iFlagAmount;
 	private int 		iFlagDetectedAmount;
 	private Date 		dStartedDate;
+	private Date		dFinishedDate;
 	
 	// builder
 	public Game( int iUserID, int iColAmount, int iRowAmount, int iFlagAmount ) {
@@ -22,6 +23,7 @@ public class Game {
 		this.iFlagAmount = iFlagAmount;
 		this.iFlagDetectedAmount = 0;
 		this.dStartedDate = null;
+		this.dFinishedDate = null;
 	}	
 	
 	// getters and setters
@@ -66,22 +68,51 @@ public class Game {
 	}
 	
 	// logical functions
-	public String onClic( int iCol, int iRow ) {
+	public void onClic( int iCol, int iRow ) {
 		
-		// if it is the first clic of the game, the initial date must be set.
-		if( this.dStartedDate == null )
-			this.dStartedDate = new Date();
-		
-		if( this.gbGameBoard.isFlag( iCol, iRow ) )
-			this.setGameStatus("GAMEOVER");
-		else {
+		// check if the game is available
+		if( !this.getGameStatus().equals("GAMEOVER") ) {
+			// if it is the first clic of the game, the initial date must be set.
+			if( this.dStartedDate == null )
+				this.dStartedDate = new Date();
+			
+			// check the status update 
 			this.gbGameBoard.setRevealed( iCol, iRow );
-			this.setGameStatus("PLAYING");
+			if( this.gbGameBoard.isFlag( iCol, iRow ) ) {
+				this.setGameStatus("GAMEOVER");
+				this.dFinishedDate = new Date();
+			}
+			else
+				this.setGameStatus("PLAYING");
 		}
-		
-		return this.getGameStatus();
 	}
 
+	public void onRightButton( int iCol, int iRow ) {
+		
+		// check if the game is available
+		if( !this.getGameStatus().equals("GAMEOVER") ) {
+			// check if the cell was revealed
+			if( !this.gbGameBoard.isRevealed( iCol, iRow ) ) {
+				if( this.gbGameBoard.isFlagged( iCol, iRow ) ) {
+					this.gbGameBoard.setFlagged( iCol, iRow, false );
+					this.iFlagDetectedAmount--;
+					this.gbGameBoard.setQuestionMarked( iCol, iRow, true );
+				}
+				else {
+					if( this.gbGameBoard.isQuestionMarked( iCol, iRow ) )
+						this.gbGameBoard.setQuestionMarked( iCol, iRow, false );
+					else {
+						this.gbGameBoard.setFlagged( iCol, iRow, true );
+						this.iFlagDetectedAmount++;
+						if( this.iFlagAmount == this.iFlagDetectedAmount )
+							if( this.gbGameBoard.checkEndGame() )
+								this.setGameStatus("FINISHED");
+					}
+				}
+			}
+		}
+	}
+	
 	public ResponseGrid getGame() {
 		
 		ResponseGrid rgResult = new ResponseGrid();
@@ -96,7 +127,14 @@ public class Game {
 		while( iCol < this.gbGameBoard.getColSize() ) {
 			int iRow = 0;
 			while( iRow < this.gbGameBoard.getRowSize() ) {
+				
 				rgResult.setCellLabel( iCol, iRow, this.gbGameBoard.getCellLabel( iCol, iRow ) );
+				
+				// check if the game over to reveal all mines
+				if( this.getGameStatus().equals("GAMEOVER") 
+						&& this.gbGameBoard.isFlag( iCol, iRow ) )
+					rgResult.setCellLabel( iCol, iRow, "MINE");
+				
 				iRow++;
 			}
 			iCol++;

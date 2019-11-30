@@ -13,3 +13,7 @@ The following function of the game are include:
 •	NewGame
 •	OnClic
 •	GetGame
+
+# Version 2.00
+New method in the controller to manage the onClic and onRightButton of the client.
+First game played through Postman in a board of 5x5 with 2 mines. Both “GAMEOVER” and “FINISHED” status were tested.
