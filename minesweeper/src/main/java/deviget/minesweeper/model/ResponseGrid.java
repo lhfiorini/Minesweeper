@@ -4,34 +4,34 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ResponseGrid {
-	public String 						GameCode;
-	public String						GameStatus;
-	public int 							FlagAmount;
-	public int 							FlagDetectedAmount;
-	public Date 						StartedDate;
-	public ArrayList<ResponseGridNode> 	ResponseGridNodes;
+	public String 						gameCode;
+	public String						gameStatus;
+	public int 							flagAmount;
+	public int 							flagDetectedAmount;
+	public Date 						startedDate;
+	public ArrayList<ResponseGridNode> 	responseGridNodes;
 	
 	// builder
 	public ResponseGrid() {
-		GameCode = "";
-		GameStatus = "";
-		FlagAmount = 0;
-		FlagDetectedAmount = 0;
-		StartedDate = new Date();
-		ResponseGridNodes = null;
+		gameCode = "";
+		gameStatus = "";
+		flagAmount = 0;
+		flagDetectedAmount = 0;
+		startedDate = new Date();
+		responseGridNodes = null;
 	}
 
 	// getters and setters
 	
 	// logical functions
-	public void setGameBoardSize(int iColSize, int iRowSize) {
+	public void setGameBoardSize(int colAmount, int rowAmount) {
 		
-		this.ResponseGridNodes = new ArrayList<ResponseGridNode>();
-		for( int iApun = 0; iApun < iColSize; iApun++ )					
-			this.ResponseGridNodes.add(new ResponseGridNode( iRowSize ));
+		this.responseGridNodes = new ArrayList<ResponseGridNode>();
+		for( int apun = 0; apun < colAmount; apun++ )					
+			this.responseGridNodes.add(new ResponseGridNode( rowAmount ));
 	}
 
-	public void setCellLabel(int iCol, int iRow, String strCellLabel) {
-		this.ResponseGridNodes.get(iCol).CellsLabel.set(iRow, strCellLabel);
+	public void setCellLabel(int col, int row, String cellLabel) {
+		this.responseGridNodes.get(col).cellsLabel.set(row, cellLabel);
 	}
 }

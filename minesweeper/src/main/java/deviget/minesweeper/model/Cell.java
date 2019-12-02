@@ -2,65 +2,65 @@ package deviget.minesweeper.model;
 
 public class Cell {
 
-	private boolean bFlag;
-	private boolean bFlagged;
-	private boolean bQuestionMarked;
-	private boolean bRevealed;
-	private int 	iAroundFlagAmount;
+	private boolean flag;
+	private boolean flagged;
+	private boolean questionMarked;
+	private boolean revealed;
+	private int 	aroungFlagAmount;
 	
 	// builder
 	public Cell() {
-		this.bFlag = false;
-		this.bFlagged = false;
-		this.bQuestionMarked = false;
-		this.bRevealed = false;
-		this.iAroundFlagAmount = 0;
+		this.flag = false;
+		this.flagged = false;
+		this.questionMarked = false;
+		this.revealed = false;
+		this.aroungFlagAmount = 0;
 	}
 	
 	// getters and setters
 	public boolean isFlag() {
-		return bFlag;
+		return flag;
 	}
 	
-	public void setFlag(boolean bFlag) {
-		this.bFlag = bFlag;
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 	
 	public boolean isFlagged() {
-		return bFlagged;
+		return flagged;
 	}
 	
-	public void setFlagged(boolean bFlagged) {
-		this.bFlagged = bFlagged;
+	public void setFlagged(boolean flagged) {
+		this.flagged = flagged;
 	}
 	
 	public boolean isQuestionMarked() {
-		return bQuestionMarked;
+		return questionMarked;
 	}
 	
-	public void setQuestionMarked(boolean bQuestionMarked) {
-		this.bQuestionMarked = bQuestionMarked;
+	public void setQuestionMarked(boolean questionMarked) {
+		this.questionMarked = questionMarked;
 	}
 	
 	public boolean isRevealed() {
-		return bRevealed;
+		return revealed;
 	}
 	
-	public void setRevealed(boolean bRevealed) {
-		this.bRevealed = bRevealed;
+	public void setRevealed(boolean revealed) {
+		this.revealed = revealed;
 	}
 	
 	public int getAroundFlagAmount() {
-		return iAroundFlagAmount;
+		return aroungFlagAmount;
 	}
 	
-	public void setAroundFlagAmount(int iAroundFlagAmount) {
-		this.iAroundFlagAmount = iAroundFlagAmount;
+	public void setAroundFlagAmount(int aroungFlagAmount) {
+		this.aroungFlagAmount = aroungFlagAmount;
 	}
 	
 	// logical functions
 	public void addAroundFlagAmount() {
-		this.iAroundFlagAmount++;
+		this.aroungFlagAmount++;
 	}
 
 }

@@ -5,15 +5,15 @@ import java.util.Date;
 
 public class GameBoardRow {
 	
-	ArrayList<Cell> alRowCell;
+	ArrayList<Cell> gameBoardRowCell;
 	
 	// builder
-	public GameBoardRow( int iRowAmount ) {
+	public GameBoardRow( int rowAmount ) {
 		
-		this.alRowCell = new ArrayList<Cell>();
-		for( int iApun = 0; iApun < iRowAmount; iApun++ ) {
+		this.gameBoardRowCell = new ArrayList<Cell>();
+		for( int apun = 0; apun < rowAmount; apun++ ) {
 			Cell auxCell = new Cell();
-			this.alRowCell.add( auxCell );
+			this.gameBoardRowCell.add( auxCell );
 		}
 	}
 	

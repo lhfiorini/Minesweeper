@@ -1,4 +1,4 @@
-package deviget.minesweeper.model;
+package deviget.minesweeper_client.model;
 
 import java.util.ArrayList;
 

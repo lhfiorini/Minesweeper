@@ -9,17 +9,17 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class GameList {
-	Hashtable<String, Game> hGames = new Hashtable<String, Game>();
+	private Hashtable<String, Game> games = new Hashtable<String, Game>();
 
-	public void put(String strGameCode, Game gameParam) {
-		hGames.put(strGameCode, gameParam);
+	public void put(String gameCode, Game game) {
+		games.put(gameCode, game);
 	}
 
-	public boolean existsGame(String strGameCode) {
-		return hGames.containsKey(strGameCode);
+	public boolean existsGame(String gameCode) {
+		return games.containsKey(gameCode);
 	}
 
-	public Game getGame(String strGameCode) {
-		return hGames.get(strGameCode);
+	public Game getGame(String gameCode) {
+		return games.get(gameCode);
 	}
 }

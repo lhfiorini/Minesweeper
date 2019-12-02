@@ -2,77 +2,70 @@ package deviget.minesweeper.model;
 
 public class RequestParam {
 
-	private int		iCol;
-	private int 	iColAmount;
-	private int 	iFlagAmount;
-	private int		iRow;
-	private int 	iRowAmount;
-	private int 	iUserID;
-	private String 	strGameCode;
+	private int		col;
+	private int 	colAmount;
+	private int 	flagAmount;
+	private int		row;
+	private int 	rowAmount;
+	private int 	userID;
 
 	// builder
 	public RequestParam() {
-		this.iColAmount = 0;
-		this.iFlagAmount = 0;
-		this.iRowAmount = 0;
-		this.iUserID = 0;
+		this.col = 0;
+		this.colAmount = 0;
+		this.flagAmount = 0;
+		this.row = 0;
+		this.rowAmount = 0;
+		this.userID = 0;
 	}
 	
 	// getters and setters
 	public int getCol() {
-		return iCol;
+		return col;
 	}
 
-	public void setCol(int iCol) {
-		this.iCol = iCol;
+	public void setCol(int col) {
+		this.col = col;
 	}
 	
 	public int getColAmount() {
-		return iColAmount;
+		return colAmount;
 	}
 	
-	public void setColAmount(int iColAmount) {
-		this.iColAmount = iColAmount;
+	public void setColAmount(int colAmount) {
+		this.colAmount = colAmount;
 	}
 	
 	public int getFlagAmount() {
-		return iFlagAmount;
+		return flagAmount;
 	}
 
-	public void setFlagAmount(int iFlagAmount) {
-		this.iFlagAmount = iFlagAmount;
+	public void setFlagAmount(int flagAmount) {
+		this.flagAmount = flagAmount;
 	}
 	
 	public int getRow() {
-		return iRow;
+		return row;
 	}
 
-	public void setRow(int iRow) {
-		this.iRow = iRow;
+	public void setRow(int row) {
+		this.row = row;
 	}
 	
 	public int getRowAmount() {
-		return iRowAmount;
+		return rowAmount;
 	}
 	
-	public void setRowAmount(int iRowAmount) {
-		this.iRowAmount = iRowAmount;
+	public void setRowAmount(int rowAmount) {
+		this.rowAmount = rowAmount;
 	}
 	
 	public int getUserID() {
-		return iUserID;
+		return userID;
 	}
 	
-	public void setUserID(int iUserID) {
-		this.iUserID = iUserID;
-	}
-	
-	public String getGameCode() {
-		return strGameCode;
-	}
-
-	public void setGameCode(String strGameCode) {
-		this.strGameCode = strGameCode;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 	
 	// logical functions

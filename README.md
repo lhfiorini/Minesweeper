@@ -17,3 +17,15 @@ The following function of the game are include:
 # Version 2.00
 New method in the controller to manage the onClic and onRightButton of the client.
 First game played through Postman in a board of 5x5 with 2 mines. Both “GAMEOVER” and “FINISHED” status were tested.
+
+# Version 3.00
+New version of the client to play with the API minesweeper. As an example, it is set a play of 2 mines in a board of 5 col and 5 rows, then 5 movements and 1 flag are realized. As the mines are located randomly sometimes the flag movement it is not the right one. Below is an example of the result when the cell is not revealed before flagging:
+Flag on 0-0:
+Game Code/Satus: 20191202_184153_1500/PLAYING
+Flag Detected: 1/2
+Time Tracking: 0 days, 0 hours, 0 minutes, 0 seconds.
+FLAGGED	2	EMPTY	EMPTY	EMPTY	
+[     ]	2	EMPTY	EMPTY	EMPTY	
+1		1	EMPTY	EMPTY	EMPTY	
+EMPTY		EMPTY	EMPTY	EMPTY	EMPTY	
+EMPTY		EMPTY	EMPTY	EMPTY	EMPTY

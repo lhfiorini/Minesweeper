@@ -5,237 +5,237 @@ import java.util.Date;
 
 public class GameBoard {
 	
-	private ArrayList<GameBoardRow> alGameBoardRow;
+	private ArrayList<GameBoardRow> gameBoardRow;
 
 
 	// builder
-	public GameBoard( int iColAmount, int iRowAmount ) {
+	public GameBoard( int colAmount, int rowAmount ) {
 		
-		this.alGameBoardRow = new ArrayList<GameBoardRow>();
-		for( int iApun = 0; iApun < iColAmount; iApun++ ) {
-			GameBoardRow auxGameBoardRow = new GameBoardRow(iRowAmount);
-			this.alGameBoardRow.add( auxGameBoardRow );
+		this.gameBoardRow = new ArrayList<GameBoardRow>();
+		for( int apun = 0; apun < colAmount; apun++ ) {
+			GameBoardRow auxGameBoardRow = new GameBoardRow(rowAmount);
+			this.gameBoardRow.add( auxGameBoardRow );
 		}
 	}
 	
 	// getters and setters
 	public int getColSize() {
-		return this.alGameBoardRow.size();
+		return this.gameBoardRow.size();
 	}
 
 	public int getRowSize() {
-		return this.alGameBoardRow.get(0).alRowCell.size();
+		return this.gameBoardRow.get(0).gameBoardRowCell.size();
 	}
 	
 	// logical functions
-	public boolean isFlag(int iCol, int iRow) {
+	public boolean isFlag(int col, int row) {
 		
-		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isFlag();
+		return this.gameBoardRow.get(col).gameBoardRowCell.get(row).isFlag();
 	}
 
-	public void setRevealed(int iCol, int iRow) {
+	public void setRevealed(int col, int row) {
 		
-		this.alGameBoardRow.get(iCol).alRowCell.get(iRow).setRevealed(true);
-		if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow).getAroundFlagAmount() == 0 )
-			this.revealNeighbors( iCol, iRow );
+		this.gameBoardRow.get(col).gameBoardRowCell.get(row).setRevealed(true);
+		if( this.gameBoardRow.get(col).gameBoardRowCell.get(row).getAroundFlagAmount() == 0 )
+			this.revealNeighbors( col, row );
 	}
 
-	private void revealNeighbors(int iCol, int iRow) {
+	private void revealNeighbors(int col, int row) {
 		
 		// one cell can have up to 8 neighbors, all of them must be check if they can be revealed.
 		
 		// check if there is a row above
-		if( iRow > 0 ) {
+		if( row > 0 ) {
 			// check if the neighbor above-right exists, then if it is not revealed lets check if it must be reveal
-			if( iCol > 0 ) {
-				if( !this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow-1).isRevealed() ) {
-					this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow-1).setRevealed(true);
-					if( this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow-1).getAroundFlagAmount() == 0 )
-						this.revealNeighbors( iCol-1, iRow-1 );
+			if( col > 0 ) {
+				if( !this.gameBoardRow.get(col-1).gameBoardRowCell.get(row-1).isRevealed() ) {
+					this.gameBoardRow.get(col-1).gameBoardRowCell.get(row-1).setRevealed(true);
+					if( this.gameBoardRow.get(col-1).gameBoardRowCell.get(row-1).getAroundFlagAmount() == 0 )
+						this.revealNeighbors( col-1, row-1 );
 				}
 			}
 			
 			// check if the neighbor above exists, then if it is not revealed lets check if it must be reveal
-			if( !this.alGameBoardRow.get(iCol).alRowCell.get(iRow-1).isRevealed() ) {
-				this.alGameBoardRow.get(iCol).alRowCell.get(iRow-1).setRevealed(true);
-				if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow-1).getAroundFlagAmount() == 0 )
-					this.revealNeighbors( iCol, iRow-1 );
+			if( !this.gameBoardRow.get(col).gameBoardRowCell.get(row-1).isRevealed() ) {
+				this.gameBoardRow.get(col).gameBoardRowCell.get(row-1).setRevealed(true);
+				if( this.gameBoardRow.get(col).gameBoardRowCell.get(row-1).getAroundFlagAmount() == 0 )
+					this.revealNeighbors( col, row-1 );
 			}
 			
 			// check if the neighbor above-left exists, then if it is not revealed lets check if it must be reveal
-			if( iCol < this.alGameBoardRow.size() - 1 ) {
-				if( !this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow-1).isRevealed() ) {
-					this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow-1).setRevealed(true);
-					if( this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow-1).getAroundFlagAmount() == 0 )
-						this.revealNeighbors( iCol+1, iRow-1 );
+			if( col < this.gameBoardRow.size() - 1 ) {
+				if( !this.gameBoardRow.get(col+1).gameBoardRowCell.get(row-1).isRevealed() ) {
+					this.gameBoardRow.get(col+1).gameBoardRowCell.get(row-1).setRevealed(true);
+					if( this.gameBoardRow.get(col+1).gameBoardRowCell.get(row-1).getAroundFlagAmount() == 0 )
+						this.revealNeighbors( col+1, row-1 );
 				}
 			}
 		}
 		
 		// check if the neighbor right exists, then if it is not revealed lets check if it must be reveal
-		if( iCol > 0 ) {
-			if( !this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow).isRevealed() ) {
-				this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow).setRevealed(true);
-				if( this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow).getAroundFlagAmount() == 0 )
-					this.revealNeighbors( iCol-1, iRow );
+		if( col > 0 ) {
+			if( !this.gameBoardRow.get(col-1).gameBoardRowCell.get(row).isRevealed() ) {
+				this.gameBoardRow.get(col-1).gameBoardRowCell.get(row).setRevealed(true);
+				if( this.gameBoardRow.get(col-1).gameBoardRowCell.get(row).getAroundFlagAmount() == 0 )
+					this.revealNeighbors( col-1, row );
 			}
 		}
 		
 		// check if the neighbor left exists, then if it is not revealed lets check if it must be reveal
-		if( iCol < this.alGameBoardRow.size() - 1 ) {
-			if( !this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow).isRevealed() ) {
-				this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow).setRevealed(true);
-				if( this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow).getAroundFlagAmount() == 0 )
-					this.revealNeighbors( iCol+1, iRow );
+		if( col < this.gameBoardRow.size() - 1 ) {
+			if( !this.gameBoardRow.get(col+1).gameBoardRowCell.get(row).isRevealed() ) {
+				this.gameBoardRow.get(col+1).gameBoardRowCell.get(row).setRevealed(true);
+				if( this.gameBoardRow.get(col+1).gameBoardRowCell.get(row).getAroundFlagAmount() == 0 )
+					this.revealNeighbors( col+1, row );
 			}
 		}
 		
 		// check if there is a row below
-		if( iRow < this.alGameBoardRow.get(iCol).alRowCell.size() - 1 ) {
+		if( row < this.gameBoardRow.get(col).gameBoardRowCell.size() - 1 ) {
 			// check if the neighbor below-right exists, then if it is not revealed lets check if it must be reveal
-			if( iCol > 0 ) {
-				if( !this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow+1).isRevealed() ) {
-					this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow+1).setRevealed(true);
-					if( this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow+1).getAroundFlagAmount() == 0 )
-						this.revealNeighbors( iCol-1, iRow+1 );
+			if( col > 0 ) {
+				if( !this.gameBoardRow.get(col-1).gameBoardRowCell.get(row+1).isRevealed() ) {
+					this.gameBoardRow.get(col-1).gameBoardRowCell.get(row+1).setRevealed(true);
+					if( this.gameBoardRow.get(col-1).gameBoardRowCell.get(row+1).getAroundFlagAmount() == 0 )
+						this.revealNeighbors( col-1, row+1 );
 				}
 			}
 			
 			// check if the neighbor below exists, then if it is not revealed lets check if it must be reveal
-			if( !this.alGameBoardRow.get(iCol).alRowCell.get(iRow+1).isRevealed() ) {
-				this.alGameBoardRow.get(iCol).alRowCell.get(iRow+1).setRevealed(true);
-				if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow+1).getAroundFlagAmount() == 0 )
-					this.revealNeighbors( iCol, iRow+1 );
+			if( !this.gameBoardRow.get(col).gameBoardRowCell.get(row+1).isRevealed() ) {
+				this.gameBoardRow.get(col).gameBoardRowCell.get(row+1).setRevealed(true);
+				if( this.gameBoardRow.get(col).gameBoardRowCell.get(row+1).getAroundFlagAmount() == 0 )
+					this.revealNeighbors( col, row+1 );
 			}
 			
 			// check if the neighbor below-left exists, then if it is not revealed lets check if it must be reveal
-			if( iCol < this.alGameBoardRow.size() - 1 ) {
-				if( !this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow+1).isRevealed() ) {
-					this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow+1).setRevealed(true);
-					if( this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow+1).getAroundFlagAmount() == 0 )
-						this.revealNeighbors( iCol+1, iRow+1 );
+			if( col < this.gameBoardRow.size() - 1 ) {
+				if( !this.gameBoardRow.get(col+1).gameBoardRowCell.get(row+1).isRevealed() ) {
+					this.gameBoardRow.get(col+1).gameBoardRowCell.get(row+1).setRevealed(true);
+					if( this.gameBoardRow.get(col+1).gameBoardRowCell.get(row+1).getAroundFlagAmount() == 0 )
+						this.revealNeighbors( col+1, row+1 );
 				}
 			}
 		}
 	}
 
-	public void setFlags(int iFlagAmount) {
+	public void setFlags(int flagAmount) {
 		
-		int iCol, iRow, iApun;
+		int col, row, apun;
 		
 		// locate random the flags
-		iApun = 0;
-		while( iApun< iFlagAmount ) {
+		apun = 0;
+		while( apun< flagAmount ) {
 			
 			// calculate a random row and column where to set a flag
-			iCol = (int) (Math.random() * this.alGameBoardRow.size());
-			iRow = (int) (Math.random() * this.alGameBoardRow.get(iCol).alRowCell.size());
+			col = (int) (Math.random() * this.gameBoardRow.size());
+			row = (int) (Math.random() * this.gameBoardRow.get(col).gameBoardRowCell.size());
 			
 			// check if this cell is not a flag, to make it flag and update the neighbors
-			if( !this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isFlag() ) {
-				this.alGameBoardRow.get(iCol).alRowCell.get(iRow).setFlag(true);
-				this.updateNeighborsFlag(iCol, iRow);
-				iApun++;
+			if( !this.gameBoardRow.get(col).gameBoardRowCell.get(row).isFlag() ) {
+				this.gameBoardRow.get(col).gameBoardRowCell.get(row).setFlag(true);
+				this.updateNeighborsFlag(col, row);
+				apun++;
 			}
 		}
 	}
 
-	private void updateNeighborsFlag(int iCol, int iRow) {
+	private void updateNeighborsFlag(int col, int row) {
 		
 		// one cell can have up to 8 neighbors, all of them must be check if they can be revealed.
 		
 		// check if there is a row above
-		if( iRow > 0 ) {
+		if( row > 0 ) {
 			// check if the neighbor above-right exists and updated
-			if( iCol > 0 )
-				this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow-1).addAroundFlagAmount();
+			if( col > 0 )
+				this.gameBoardRow.get(col-1).gameBoardRowCell.get(row-1).addAroundFlagAmount();
 			
 			// check if the neighbor above exists and updated
-			this.alGameBoardRow.get(iCol).alRowCell.get(iRow-1).addAroundFlagAmount();
+			this.gameBoardRow.get(col).gameBoardRowCell.get(row-1).addAroundFlagAmount();
 			
 			// check if the neighbor above-left exists and updated
-			if( iCol < this.alGameBoardRow.size() - 1 )
-				this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow-1).addAroundFlagAmount();
+			if( col < this.gameBoardRow.size() - 1 )
+				this.gameBoardRow.get(col+1).gameBoardRowCell.get(row-1).addAroundFlagAmount();
 		}
 		
 		// check if the neighbor right exists and updated
-		if( iCol > 0 )
-			this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow).addAroundFlagAmount();
+		if( col > 0 )
+			this.gameBoardRow.get(col-1).gameBoardRowCell.get(row).addAroundFlagAmount();
 		
 		// check if the neighbor left exists and updated
-		if( iCol < this.alGameBoardRow.size() - 1 )
-			this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow).addAroundFlagAmount();
+		if( col < this.gameBoardRow.size() - 1 )
+			this.gameBoardRow.get(col+1).gameBoardRowCell.get(row).addAroundFlagAmount();
 		
 		// check if there is a row below
-		if( iRow < this.alGameBoardRow.get(iCol).alRowCell.size() - 1 ) {
+		if( row < this.gameBoardRow.get(col).gameBoardRowCell.size() - 1 ) {
 			// check if the neighbor below-right exists and updated
-			if( iCol > 0 )
-				this.alGameBoardRow.get(iCol-1).alRowCell.get(iRow+1).addAroundFlagAmount();
+			if( col > 0 )
+				this.gameBoardRow.get(col-1).gameBoardRowCell.get(row+1).addAroundFlagAmount();
 			
 			// check if the neighbor below exists and updated
-			this.alGameBoardRow.get(iCol).alRowCell.get(iRow+1).addAroundFlagAmount();
+			this.gameBoardRow.get(col).gameBoardRowCell.get(row+1).addAroundFlagAmount();
 			
 			// check if the neighbor below-left exists and updated
-			if( iCol < this.alGameBoardRow.size() - 1 )
-				this.alGameBoardRow.get(iCol+1).alRowCell.get(iRow+1).addAroundFlagAmount();
+			if( col < this.gameBoardRow.size() - 1 )
+				this.gameBoardRow.get(col+1).gameBoardRowCell.get(row+1).addAroundFlagAmount();
 		}
 	}
 
-	public String getCellLabel(int iCol, int iRow) {
+	public String getCellLabel(int col, int row) {
 		
-		String strResult = "";
+		String result = "";
 		
 		// checking if the cell was revealed
-		if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isRevealed() ) {
-			if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow).getAroundFlagAmount() != 0 )
-				strResult = String.valueOf(this.alGameBoardRow.get(iCol).alRowCell.get(iRow).getAroundFlagAmount());
+		if( this.gameBoardRow.get(col).gameBoardRowCell.get(row).isRevealed() ) {
+			if( this.gameBoardRow.get(col).gameBoardRowCell.get(row).getAroundFlagAmount() != 0 )
+				result = String.valueOf(this.gameBoardRow.get(col).gameBoardRowCell.get(row).getAroundFlagAmount());
 			else
-				strResult = "EMPTY";
+				result = "EMPTY";
 		}
 		else {
-			if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isFlagged() )
-				strResult = "FLAGGED";
+			if( this.gameBoardRow.get(col).gameBoardRowCell.get(row).isFlagged() )
+				result = "FLAGGED";
 			
-			if( this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isQuestionMarked() )
-				strResult = "QUESTIONMARKED";
+			if( this.gameBoardRow.get(col).gameBoardRowCell.get(row).isQuestionMarked() )
+				result = "QUESTIONMARKED";
 		}
 		
-		return strResult;
+		return result;
 	}
 
-	public boolean isRevealed(int iCol, int iRow) {
-		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isRevealed();
+	public boolean isRevealed(int col, int row) {
+		return this.gameBoardRow.get(col).gameBoardRowCell.get(row).isRevealed();
 	}
 
-	public boolean isFlagged(int iCol, int iRow) {
-		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isFlagged();
+	public boolean isFlagged(int col, int row) {
+		return this.gameBoardRow.get(col).gameBoardRowCell.get(row).isFlagged();
 	}
 
-	public void setFlagged(int iCol, int iRow, boolean bFlagged) {
-		this.alGameBoardRow.get(iCol).alRowCell.get(iRow).setFlagged( bFlagged );
+	public void setFlagged(int col, int row, boolean bFlagged) {
+		this.gameBoardRow.get(col).gameBoardRowCell.get(row).setFlagged( bFlagged );
 	}
 
-	public void setQuestionMarked(int iCol, int iRow, boolean bQuestionMarked) {
-		this.alGameBoardRow.get(iCol).alRowCell.get(iRow).setQuestionMarked( bQuestionMarked );
+	public void setQuestionMarked(int col, int row, boolean bQuestionMarked) {
+		this.gameBoardRow.get(col).gameBoardRowCell.get(row).setQuestionMarked( bQuestionMarked );
 	}
 
-	public boolean isQuestionMarked(int iCol, int iRow) {
-		return this.alGameBoardRow.get(iCol).alRowCell.get(iRow).isQuestionMarked();
+	public boolean isQuestionMarked(int col, int row) {
+		return this.gameBoardRow.get(col).gameBoardRowCell.get(row).isQuestionMarked();
 	}
 
 	public boolean checkEndGame() {
 		
-		boolean bResult = true;
-		int iCol = 0;
-		while( iCol < this.getColSize() ) {
-			int iRow = 0;
-			while( iRow < this.getRowSize() ) {
-				bResult = bResult && (this.isFlag(iCol, iRow) == this.isFlagged(iCol, iRow));
-				iRow++;
+		boolean result = true;
+		int col = 0;
+		while( col < this.getColSize() ) {
+			int row = 0;
+			while( row < this.getRowSize() ) {
+				result = result && (this.isFlag(col, row) == this.isFlagged(col, row));
+				row++;
 			}
-			iCol++;
+			col++;
 		}
 		
-		return bResult;
+		return result;
 	}
 }
