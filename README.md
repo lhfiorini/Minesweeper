@@ -29,3 +29,9 @@ FLAGGED	2	EMPTY	EMPTY	EMPTY
 1		1	EMPTY	EMPTY	EMPTY	
 EMPTY		EMPTY	EMPTY	EMPTY	EMPTY	
 EMPTY		EMPTY	EMPTY	EMPTY	EMPTY
+
+# Version 3.01
+The client was optimized in order to independent the functions to interact with server in one class separated from the function to print the result.
+The server was published in AWS under the following url:
+http://minesweeperapi.sa-east-1.elasticbeanstalk.com/minesweeper
+

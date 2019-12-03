@@ -1,53 +1,46 @@
 package deviget.minesweeper_client;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
 
+import deviget.minesweeper_client.model.MinesweeperAPIClient;
 import deviget.minesweeper_client.model.ResponseGrid;
-
-import com.google.gson.Gson;
 
 public class App 
 {
-	private String server;
 	
     public static void main( String[] args ) throws Exception {
+    	String gameCode, gameStatus;
+    	MinesweeperAPIClient minesweeperClient;
+    	
         App mainApp = new App();
-        mainApp.server = "http://localhost:8080/minesweeper/game";
+        minesweeperClient = new MinesweeperAPIClient("http://minesweeperapi.sa-east-1.elasticbeanstalk.com/minesweeper/game");
         
         // define a new game
-        String gameCode = mainApp.newGame(1500, 5, 5, 2);
+        gameCode = minesweeperClient.newGame(1500, 5, 5, 2);
         System.out.println( "the new game code is: " + gameCode);
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
+        mainApp.printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
         
         // reveal several cells
-        String gameStatus = mainApp.revealCell( gameCode, 1, 3 );
+        gameStatus = minesweeperClient.revealCell( gameCode, 1, 3 );
         System.out.println( "Reveal on 1-3:" );
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
-        gameStatus = mainApp.revealCell( gameCode, 3, 4 );
+        printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
+        gameStatus = minesweeperClient.revealCell( gameCode, 3, 4 );
         System.out.println( "Reveal on 3-4:" );
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
-        gameStatus = mainApp.revealCell( gameCode, 2, 3 );
+        printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
+        gameStatus = minesweeperClient.revealCell( gameCode, 2, 3 );
         System.out.println( "Reveal on 2-4:" );
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
-        gameStatus = mainApp.revealCell( gameCode, 0, 2 );
+        printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
+        gameStatus = minesweeperClient.revealCell( gameCode, 0, 2 );
         System.out.println( "Reveal on 0-2:" );
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
-        gameStatus = mainApp.revealCell( gameCode, 3, 3 );
+        printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
+        gameStatus = minesweeperClient.revealCell( gameCode, 3, 3 );
         System.out.println( "Reveal on 2-3:" );
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
+        printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
         
         // flag a cell
-        mainApp.flagCell( gameCode, 0, 0 );
+        minesweeperClient.flagCell( gameCode, 0, 0 );
         System.out.println( "Flag on 0-0:" );
-        mainApp.printGameBoard( mainApp.getGameBoard( gameCode ) );
+        printGameBoard( minesweeperClient.getGameBoard( gameCode ) );
     }
 
 	private static void printGameBoard( ResponseGrid responseGrid ) {
@@ -91,149 +84,5 @@ public class App
         
 		return diffDays + " days, " + diffHours + " hours, " + diffMinutes + " minutes, " + diffSeconds + " seconds.";
     }
-    
-    private String flagCell(String gameCode, int col, int row) throws Exception {
-    	String gameStatus = "";
-    	HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("col", col);
-		param.put("row", row);
-
-		URL urlServer = new URL(this.server+"/"+ gameCode +"/flag");
-		HttpURLConnection urlConn = (HttpURLConnection) urlServer.openConnection();
-		urlConn.setConnectTimeout(3000);
-		urlConn.setRequestMethod("PUT");
-		urlConn.setDoOutput(true);
-		urlConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		urlConn.setRequestProperty("charset", "utf-8");
-		Gson gson = new Gson();
-		String str = gson.toJson(param);
-		byte[] bstr = str.getBytes(StandardCharsets.UTF_8);
-		int len = bstr.length;
-		urlConn.setRequestProperty("Content-Length", String.valueOf(len));
-		urlConn.setUseCaches(false);
-
-		try (DataOutputStream wr = new DataOutputStream(urlConn.getOutputStream())) {
-			wr.write(bstr);
-		}
-
-		if (urlConn.getResponseCode() == 200) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null)
-				response.append(inputLine);
-			in.close();
-			
-			gameStatus = response.toString();
-		}
-		return gameStatus;
-	}
-    
-    private ResponseGrid getGameBoard(String gameCode) throws Exception {
-
-    	ResponseGrid responseGrid = null;
-    	
-		URL urlServer = new URL(this.server+"/"+gameCode);
-		HttpURLConnection urlConn = (HttpURLConnection) urlServer.openConnection();
-		urlConn.setConnectTimeout(3000);
-		urlConn.setRequestMethod("GET");
-		urlConn.setDoOutput(true);
-		urlConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		urlConn.setRequestProperty("charset", "utf-8");
-		urlConn.setUseCaches(false);
-
-		if (urlConn.getResponseCode() == 200) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null)
-				response.append(inputLine);
-			in.close();
-
-			Gson gson = new Gson();
-			responseGrid = gson.fromJson(response.toString(), ResponseGrid.class);			
-		}
-		return responseGrid;
-	}
-
-	private String revealCell(String gameCode, int col, int row) throws Exception {
-    	String gameStatus = "";
-    	HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("col", col);
-		param.put("row", row);
-
-		URL urlServer = new URL(this.server+"/"+gameCode+"/reveal");
-		HttpURLConnection urlConn = (HttpURLConnection) urlServer.openConnection();
-		urlConn.setConnectTimeout(3000);
-		urlConn.setRequestMethod("PUT");
-		urlConn.setDoOutput(true);
-		urlConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		urlConn.setRequestProperty("charset", "utf-8");
-		Gson gson = new Gson();
-		String str = gson.toJson(param);
-		byte[] bstr = str.getBytes(StandardCharsets.UTF_8);
-		int len = bstr.length;
-		urlConn.setRequestProperty("Content-Length", String.valueOf(len));
-		urlConn.setUseCaches(false);
-
-		try (DataOutputStream wr = new DataOutputStream(urlConn.getOutputStream())) {
-			wr.write(bstr);
-		}
-
-		if (urlConn.getResponseCode() == 200) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null)
-				response.append(inputLine);
-			in.close();
-			
-			gameStatus = response.toString();
-		}
-		return gameStatus;
-	}
-
-	private String newGame( int userID, int colAmount, int rowAmount, int flagAmount ) throws Exception {
-		
-    	String gameCode = "";
-    	HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("userID", userID);
-		param.put("colAmount", colAmount);
-		param.put("rowAmount", rowAmount);
-		param.put("flagAmount", flagAmount);
-
-		URL urlServer = new URL(this.server);
-		HttpURLConnection urlConn = (HttpURLConnection) urlServer.openConnection();
-		urlConn.setConnectTimeout(3000);
-		urlConn.setRequestMethod("POST");
-		urlConn.setDoOutput(true);
-		urlConn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-		urlConn.setRequestProperty("charset", "utf-8");
-		Gson gson = new Gson();
-		String str = gson.toJson(param);
-		byte[] bstr = str.getBytes(StandardCharsets.UTF_8);
-		int len = bstr.length;
-		urlConn.setRequestProperty("Content-Length", String.valueOf(len));
-		urlConn.setUseCaches(false);
-
-		try (DataOutputStream wr = new DataOutputStream(urlConn.getOutputStream())) {
-			wr.write(bstr);
-		}
-
-		if (urlConn.getResponseCode() == 200) {
-			BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			while ((inputLine = in.readLine()) != null)
-				response.append(inputLine);
-			in.close();
-			
-			gameCode = response.toString();
-		}
-		return gameCode;  	
-    }
+   
 }
